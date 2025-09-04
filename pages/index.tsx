@@ -74,7 +74,7 @@ export default function Home({
             textAlign: 'center',
           }}
         >
-          Srikanth&apos;s monitoring and status page powered by{' '}
+          Srikanth&apos;s monitoring and status page powered by{' '} Uptime {' '} 
           and{' '}
           <a href="https://www.cloudflare.com/" target="_blank">
             Cloudflare

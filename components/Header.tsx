@@ -29,7 +29,15 @@ export default function Header() {
               w={32}
               h={32}
             />
-
+            <Text
+              size="xl"
+              span
+              fw={700}
+              variant="gradient"
+              gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
+            >
+              Srikanth System Status
+            </Text>
 
         </div>
 
