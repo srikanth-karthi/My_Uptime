@@ -1,63 +1,60 @@
-<div align="right">
-  <a title="English" href="README.md"><img src="https://img.shields.io/badge/-English-A31F34?style=for-the-badge" alt="English" /></a>
-  <a title="简体中文" href="README_zh-CN.md"><img src="https://img.shields.io/badge/-%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-545759?style=for-the-badge" alt="简体中文"></a>
-</div>
+# UptimeFlare Wiki
 
-# ✔[UptimeFlare](https://github.com/lyc8503/UptimeFlare)
+Welcome to the UptimeFlare documentation! This wiki provides comprehensive guides for setting up, configuring, and managing your serverless uptime monitoring solution.
 
-A more advanced, serverless, and free uptime monitoring & status page solution, powered by Cloudflare Workers, complete with a user-friendly interface.
+## 🚀 Quick Start
 
-## ⭐Features
+- [Getting Started](Getting-Started) - Set up UptimeFlare in under 10 minutes
+- [Configuration Guide](Configuration-Guide) - Complete configuration reference
+- [Deployment](Deployment) - Deploy to Cloudflare Workers
 
-- Open-source, easy to deploy (in under 10 minutes, no local tools required), and free
-- Monitoring capabilities
-  - Up to 50 checks at 1-minute intervals
-  - Geo-specific checks from over [310 cities](https://www.cloudflare.com/network/) worldwide
-  - Support for HTTP/HTTPS/TCP port monitoring
-  - Up to 90-day uptime history and uptime percentage tracking
-  - Customizable request methods, headers, and body for HTTP(s)
-  - Custom status code & keyword checks for HTTP(s)
-  - Downtime notification supporting [100+ notification channels](https://github.com/caronc/apprise/wiki)
-  - Customizable Webhook
-- Status page
-  - Interactive ping (response time) chart for all types of monitors
-  - Responsive UI that adapts to your system theme
-  - Customizable status page
-  - Use your own domain with CNAME
-  - Optional password authentication (private status page)
-  - JSON API for fetching realtime status data
+## 📖 Documentation
 
-## 👀Demo
+### Core Concepts
+- [How UptimeFlare Works](How-UptimeFlare-Works) - Architecture overview
+- [Monitors](Monitors) - Setting up HTTP, HTTPS, and TCP monitoring
+- [Status Pages](Status-Pages) - Customizing your public status page
+- [Notifications](Notifications) - Configure alerts via 100+ channels
 
-My status page (Online demo): https://uptimeflare.pages.dev/
+### Advanced Features
+- [Custom Domains](Custom-Domains) - Use your own domain with CNAME
+- [Authentication](Authentication) - Password protect your status page  
+- [Maintenance Windows](Maintenance-Windows) - Schedule planned maintenance
+- [API Reference](API-Reference) - JSON API for status data
+- [Callbacks & Webhooks](Callbacks-Webhooks) - Custom integrations
 
-Some screenshots:
+### Management
+- [Monitoring Best Practices](Monitoring-Best-Practices)
+- [Troubleshooting](Troubleshooting) - Common issues and solutions
+- [Migration Guide](Migration-Guide) - Migrate from other monitoring tools
 
-![Desktop, Light theme](docs/desktop.png)
+## 🔧 Development
 
-## ⚡Quickstart / 📄Documentation
+- [Local Development](Local-Development) - Run UptimeFlare locally
+- [Contributing](Contributing) - How to contribute to the project
+- [Architecture](Architecture) - Technical architecture details
 
-Please refer to [Wiki](https://github.com/lyc8503/UptimeFlare/wiki)
+## 📊 Examples
 
-## New features (TODOs)
+- [Sample Configurations](Sample-Configurations) - Real-world configuration examples
+- [Integration Examples](Integration-Examples) - Third-party integrations
+- [Custom Callback Examples](Custom-Callback-Examples) - Advanced customizations
 
-- [x] Specify region for monitors
-- [x] TCP `opened` promise
-- [x] Use apprise to support various notification channels
-- [x] ~~Telegram example~~
-- [x] ~~[Bark](https://bark.day.app) example~~
-- [x] ~~Email notification via Cloudflare Email Workers~~
-- [x] Improve docs by providing simple examples
-- [x] Notification grace period
-- [ ] SSL certificate checks
-- [x] ~~Self-host Dockerfile~~
-- [x] Incident history
-- [x] Improve `checkLocationWorkerRoute` and fix possible `proxy failed`
-- [x] Groups
-- [x] Remove old incidents
-- [x] ~~Known issue~~: `fetch` doesn't support non-standard port (resolved after CF update)
-- [x] Compatibility date update
-- [x] Scheduled Maintenance 
-- [ ] Update wiki/README and add docs for dev
-- [ ] Migration to Terraform Cloudflare provider version 5.x
-- [ ] Cloudflare D1 database
+## 🆘 Support
+
+- [FAQ](FAQ) - Frequently asked questions
+- [GitHub Issues](https://github.com/lyc8503/UptimeFlare/issues) - Report bugs or request features
+- [Discussions](https://github.com/lyc8503/UptimeFlare/discussions) - Community support
+
+---
+
+## Current Project Status
+
+This UptimeFlare instance monitors:
+- 🌐 **AI Portfolio** - https://ai.srikanth.fun/
+- 📝 **Blogs Health** - https://blogs.srikanth.fun/api/health  
+- 🔗 **Links Site** - https://links.srikanth.fun/
+- 📚 **Notes Site** - https://notes.srikanth.fun/
+- 🏠 **Portfolio Site** - https://srikanth.fun/
+
+All monitors run every minute with 10-second timeouts, expecting HTTP 200 responses.

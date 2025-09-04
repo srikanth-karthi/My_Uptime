@@ -1,4 +1,4 @@
-import { Container, Group, Text } from '@mantine/core'
+import { Container, Group, Text, Image } from '@mantine/core'
 import classes from '@/styles/Header.module.css'
 import { pageConfig } from '@/uptime.config'
 import { PageConfigLink } from '@/types/config'
@@ -22,20 +22,15 @@ export default function Header() {
     <header className={classes.header}>
       <Container size="md" className={classes.inner}>
         <div>
-          <a href="https://github.com/lyc8503/UptimeFlare" target="_blank">
-            <Text size="xl" span>
-              🕒
-            </Text>
-            <Text
-              size="xl"
-              span
-              fw={700}
-              variant="gradient"
-              gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
-            >
-              UptimeFlare
-            </Text>
-          </a>
+
+            <Image
+              src="/icon.png"
+              alt="System Check Icon"
+              w={32}
+              h={32}
+            />
+
+
         </div>
 
         <Group gap={5} visibleFrom="sm">

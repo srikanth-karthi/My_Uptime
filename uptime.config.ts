@@ -3,11 +3,9 @@ import { MaintenanceConfig, PageConfig, WorkerConfig } from './types/config'
 const pageConfig: PageConfig = {
   title: "My Status Page",
   links: [
-    { link: 'https://ai.srikanth.fun/', label: 'AI Portfolio' },
-    { link: 'https://blogs.srikanth.fun/api/health', label: 'Blogs' },
-    { link: 'https://links.srikanth.fun/', label: 'Links' },
-    { link: 'https://notes.srikanth.fun/', label: 'Notes' },
-    { link: 'https://srikanth.fun/', label: 'Portfolio' },
+    { link: 'https://github.com/srikanth-karthi', label: 'Github' },
+    { link: 'https://www.linkedin.com/in/srikanth-karthikeyan/', label: 'LinkedIn' },
+
   ],
   group: {
     '🌐 Public': [
@@ -70,7 +68,7 @@ const workerConfig: WorkerConfig = {
     },
   ],
   notification: {
-    // Example setup: replace with your Apprise API or notification config
+
     appriseApiServer: 'https://apprise.example.com/notify',
     recipientUrl: 'tgram://bottoken/ChatID',
     timeZone: 'Asia/Kolkata',
