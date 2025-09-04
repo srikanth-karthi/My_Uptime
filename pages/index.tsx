@@ -74,10 +74,7 @@ export default function Home({
             textAlign: 'center',
           }}
         >
-          Srikanth's monitoring and status page powered by{' '}
-          <a href="https://github.com/lyc8503/UptimeFlare" target="_blank">
-            Uptimeflare
-          </a>{' '}
+          Srikanth&apos;s monitoring and status page powered by{' '}
           and{' '}
           <a href="https://www.cloudflare.com/" target="_blank">
             Cloudflare
