@@ -27,7 +27,7 @@ const workerConfig: WorkerConfig = {
       method: 'GET',
       target: 'https://srikanth.fun/',
       expectedCodes: [200],
-      timeout: 1000,
+      timeout: 3000,
       statusPageLink: 'https://srikanth.fun/',
     },
     {
@@ -36,7 +36,7 @@ const workerConfig: WorkerConfig = {
       method: 'GET',
       target: 'https://ai.srikanth.fun/',
       expectedCodes: [200],
-      timeout: 1000,
+      timeout: 3000,
       statusPageLink: 'https://ai.srikanth.fun/',
     },
     {
@@ -45,7 +45,7 @@ const workerConfig: WorkerConfig = {
       method: 'GET',
       target: 'https://blogs.srikanth.fun/api/health',
       expectedCodes: [200],
-      timeout: 1000,
+      timeout: 3000,
       statusPageLink: 'https://blogs.srikanth.fun/api/health',
     },
     {
@@ -54,7 +54,7 @@ const workerConfig: WorkerConfig = {
       method: 'GET',
       target: 'https://links.srikanth.fun/',
       expectedCodes: [200],
-      timeout: 1000,
+      timeout: 3000,
       statusPageLink: 'https://links.srikanth.fun/',
     },
     {
@@ -63,7 +63,7 @@ const workerConfig: WorkerConfig = {
       method: 'GET',
       target: 'https://notes.srikanth.fun/',
       expectedCodes: [200],
-      timeout: 1000,
+      timeout: 3000,
       statusPageLink: 'https://notes.srikanth.fun/',
     },
 
@@ -83,7 +83,7 @@ const workerConfig: WorkerConfig = {
       timeNow: number,
       reason: string
     ) => {
-      // Add your custom code for status change here if needed
+      
     },
     onIncident: async (
       env: any,
@@ -92,7 +92,7 @@ const workerConfig: WorkerConfig = {
       timeNow: number,
       reason: string
     ) => {
-      // Add your custom code for ongoing incident here if needed
+      
     },
   },
 }
