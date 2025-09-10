@@ -16,9 +16,13 @@ terraform {
 }
 
 provider "cloudflare" {
-  # read token from $CLOUDFLARE_API_TOKEN
+  api_token = var.CLOUDFLARE_API_TOKEN
 }
 
+variable "CLOUDFLARE_API_TOKEN" {
+  type      = string
+  sensitive = true
+}
 variable "CLOUDFLARE_ACCOUNT_ID" {
   # read account id from $TF_VAR_CLOUDFLARE_ACCOUNT_ID
   type = string
@@ -29,7 +33,7 @@ resource "cloudflare_workers_kv_namespace" "uptimeflare_kv" {
   title      = "uptimeflare_kv"
 }
 
-resource "cloudflare_worker_script" "uptimeflare" {
+resource "cloudflare_workers_script" "uptimeflare" {
   account_id         = var.CLOUDFLARE_ACCOUNT_ID
   name               = "uptimeflare_worker"
   content            = file("worker/dist/index.js")
