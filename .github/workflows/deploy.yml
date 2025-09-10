@@ -131,7 +131,7 @@ jobs:
           TFC_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
 
       - name: Upload Terraform Plan
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: terraform-plan-${{ github.sha }}
           path: tfplan
@@ -150,7 +150,7 @@ jobs:
           terraform_version: 1.6.4
 
       - name: Download Terraform Plan
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: terraform-plan-${{ github.sha }}
           path: .
