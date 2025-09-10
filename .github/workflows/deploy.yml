@@ -123,18 +123,17 @@ jobs:
             -input=false
 
           terraform plan \
-            -out=tfplan \
-            -input=false
+            -input=false > terraform-plan.txt 2>&1
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           TF_VAR_CLOUDFLARE_ACCOUNT_ID: ${{ steps.fetch_account_id.outputs.account_id }}
           TFC_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
 
-      - name: Upload Terraform Plan
+      - name: Upload Terraform Plan Output
         uses: actions/upload-artifact@v4
         with:
-          name: terraform-plan-${{ github.sha }}
-          path: tfplan
+          name: terraform-plan-output-${{ github.sha }}
+          path: terraform-plan.txt
           retention-days: 30
 
   deploy:
@@ -148,12 +147,6 @@ jobs:
         uses: hashicorp/setup-terraform@v2.0.3
         with:
           terraform_version: 1.6.4
-
-      - name: Download Terraform Plan
-        uses: actions/download-artifact@v4
-        with:
-          name: terraform-plan-${{ github.sha }}
-          path: .
 
       - name: Configure Terraform Cloud credentials
         run: |
@@ -177,7 +170,7 @@ jobs:
 
           terraform apply \
             -auto-approve \
-            tfplan
+            -input=false
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           TF_VAR_CLOUDFLARE_ACCOUNT_ID: ${{ needs.build.outputs.account_id }}
