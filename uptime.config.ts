@@ -99,14 +99,14 @@ const workerConfig: WorkerConfig = {
 
 const maintenances: MaintenanceConfig[] = [
   
-  // {
-  //   monitors: ['ai_portfolio', 'blogs_health'],
-  //   title: 'Planned Maintenance',
-  //   body: 'Performing updates on AI Portfolio and Blogs services',
-  //   start: '2025-09-10T00:00:00+05:30',
-  //   end: '2025-09-10T04:00:00+05:30',
-  //   color: 'yellow',
-  // },
+  {
+    monitors: ['ai_portfolio'],
+    title: 'Planned Maintenance',
+    body: 'Performing updates on AI Portfolio',
+    start: '2025-09-10T00:00:00+05:30',
+    end: '2025-09-10T04:00:00+05:30',
+    color: 'yellow',
+  },
 ]
 
 export { pageConfig, workerConfig, maintenances }
