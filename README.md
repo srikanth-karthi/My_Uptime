@@ -1,60 +1,56 @@
-# UptimeFlare Wiki
+Uptime Monitoring System Architecture
 
-Welcome to the UptimeFlare documentation! This wiki provides comprehensive guides for setting up, configuring, and managing your serverless uptime monitoring solution.
+  Overall System Flow
 
-## 🚀 Quick Start
+  The system is a distributed uptime monitor built on Cloudflare infrastructure:
 
-- [Getting Started](Getting-Started) - Set up UptimeFlare in under 10 minutes
-- [Configuration Guide](Configuration-Guide) - Complete configuration reference
-- [Deployment](Deployment) - Deploy to Cloudflare Workers
+  Config → Cloudflare Worker (cron) → Health Checks → KV Storage → Next.js Frontend → Users
 
-## 📖 Documentation
+  Key Components
 
-### Core Concepts
-- [How UptimeFlare Works](How-UptimeFlare-Works) - Architecture overview
-- [Monitors](Monitors) - Setting up HTTP, HTTPS, and TCP monitoring
-- [Status Pages](Status-Pages) - Customizing your public status page
-- [Notifications](Notifications) - Configure alerts via 100+ channels
+  1. Configuration Layer
+  - uptime.config.ts - Defines 5 monitored services, notification settings, maintenance windows
+  - deploy.tf - Terraform infrastructure definitions
 
-### Advanced Features
-- [Custom Domains](Custom-Domains) - Use your own domain with CNAME
-- [Authentication](Authentication) - Password protect your status page  
-- [Maintenance Windows](Maintenance-Windows) - Schedule planned maintenance
-- [API Reference](API-Reference) - JSON API for status data
-- [Callbacks & Webhooks](Callbacks-Webhooks) - Custom integrations
+  2. Monitoring Layer (Cloudflare Worker)
+  - Runs every 5 hours via cron trigger
+  - Executes HTTP GET checks on configured endpoints
+  - Tracks latency, incidents, up/down status
+  - Stores results in Cloudflare KV namespace
 
-### Management
-- [Monitoring Best Practices](Monitoring-Best-Practices)
-- [Troubleshooting](Troubleshooting) - Common issues and solutions
-- [Migration Guide](Migration-Guide) - Migrate from other monitoring tools
+  3. Storage Layer
+  - Cloudflare KV for persistent state
+  - Stores incident history (90 days), latency data (12 hours)
+  - Uses write cooldown (5 hours) to optimize KV operations
 
-## 🔧 Development
+  4. Frontend Layer (Next.js)
+  - Status page with grouped service display
+  - Auto-refresh when data is stale (>5 minutes)
+  - Components: OverallStatus, MonitorList, MaintenanceAlert
+  - API endpoint reads KV data and formats for UI
 
-- [Local Development](Local-Development) - Run UptimeFlare locally
-- [Contributing](Contributing) - How to contribute to the project
-- [Architecture](Architecture) - Technical architecture details
+  5. Notification Layer
+  - Apprise integration for Telegram alerts
+  - Grace period (5 minutes) before notifications
+  - Maintenance window suppression
 
-## 📊 Examples
+  Pipeline Flow
 
-- [Sample Configurations](Sample-Configurations) - Real-world configuration examples
-- [Integration Examples](Integration-Examples) - Third-party integrations
-- [Custom Callback Examples](Custom-Callback-Examples) - Advanced customizations
+  1. Scheduled Check: Worker triggered every 5 hours
+  2. Health Monitoring: HTTP checks against 5 services with 3s timeout
+  3. State Processing: Results processed, incidents tracked
+  4. Data Persistence: State saved to KV with cooldown optimization
+  5. Alert Processing: Notifications sent on status changes
+  6. Frontend Display: Next.js app renders real-time status page
 
-## 🆘 Support
+  Deployment Process
 
-- [FAQ](FAQ) - Frequently asked questions
-- [GitHub Issues](https://github.com/lyc8503/UptimeFlare/issues) - Report bugs or request features
-- [Discussions](https://github.com/lyc8503/UptimeFlare/discussions) - Community support
+  GitHub Actions workflow:
+  1. Build worker (TypeScript → JavaScript)
+  2. Terraform deploy (worker, KV namespace, cron trigger)
+  3. Build Next.js frontend
+  4. Deploy to Cloudflare Pages
+  5. Manual Durable Object binding setup
 
----
-
-## Current Project Status
-
-This UptimeFlare instance monitors:
-- 🌐 **AI Portfolio** - https://ai.srikanth.fun/
-- 📝 **Blogs Health** - https://blogs.srikanth.fun/api/health  
-- 🔗 **Links Site** - https://links.srikanth.fun/
-- 📚 **Notes Site** - https://notes.srikanth.fun/
-- 🏠 **Portfolio Site** - https://srikanth.fun/
-
-All monitors run every minute with 10-second timeouts, expecting HTTP 200 responses.
+  The system provides 24/7 monitoring with global Cloudflare edge locations and real-time status
+  updates.

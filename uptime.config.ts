@@ -19,7 +19,7 @@ const pageConfig: PageConfig = {
 }
 
 const workerConfig: WorkerConfig = {
-  kvWriteCooldownMinutes: 1440,
+  kvWriteCooldownMinutes: 300,
   monitors: [
         {
       id: 'portfolio_site',

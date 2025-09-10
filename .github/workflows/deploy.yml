@@ -102,23 +102,18 @@ jobs:
       - name: Deploy using Terraform
         # As we don't save terraform state somewhere, we need to import the existing resources
         run: |
-          terraform init
+          terraform init \
+            -input=false
 
-          KV_ID=$(curl https://api.cloudflare.com/client/v4/accounts/$TF_VAR_CLOUDFLARE_ACCOUNT_ID/storage/kv/namespaces\?per_page\=100 --header 'Authorization: Bearer '$CLOUDFLARE_API_TOKEN | jq -r '.result[] | select(.title == "uptimeflare_kv") | .id')
-          if [ -n "$KV_ID" ]; then
-            echo "Importing existing resources..."
-            terraform import cloudflare_workers_kv_namespace.uptimeflare_kv "$TF_VAR_CLOUDFLARE_ACCOUNT_ID/$KV_ID"
-            terraform import cloudflare_worker_script.uptimeflare "$TF_VAR_CLOUDFLARE_ACCOUNT_ID/uptimeflare_worker"
-            terraform import cloudflare_worker_cron_trigger.uptimeflare_worker_cron "$TF_VAR_CLOUDFLARE_ACCOUNT_ID/uptimeflare_worker"
-            terraform import cloudflare_pages_project.uptimeflare "$TF_VAR_CLOUDFLARE_ACCOUNT_ID/uptimeflare"
-          else
-            echo "KV namespace not found, first-time setup."
-          fi
+          terraform apply \
+            -auto-approve \
+            -input=false
 
           terraform apply -auto-approve -input=false
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           TF_VAR_CLOUDFLARE_ACCOUNT_ID: ${{ steps.fetch_account_id.outputs.account_id }}
+          TFC_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
 
       # Terraform Cloudflare provider 4.x doesn't support durable objects, provider 5.x has unresolved issues blocking the deployment. (cloudflare/terraform-provider-cloudflare#5412)
       # So I have to manually add durable objects bindings here.

@@ -5,6 +5,14 @@ terraform {
       version = "~> 4"
     }
   }
+  
+  backend "remote" {
+    organization = "srikanth-dev"
+
+    workspaces {
+      name = "uptimeflare"
+    }
+  }
 }
 
 provider "cloudflare" {
