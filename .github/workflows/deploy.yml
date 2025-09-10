@@ -99,8 +99,23 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ steps.fetch_account_id.outputs.account_id }}
 
+      - name: Configure Terraform Cloud credentials
+        run: |
+          mkdir -p ~/.terraform.d
+          cat > ~/.terraform.d/credentials.tfrc.json <<EOF
+          {
+            "credentials": {
+              "app.terraform.io": {
+                "token": "${TFC_TOKEN}"
+              }
+            }
+          }
+          EOF
+        env:
+          TFC_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
+
+
       - name: Deploy using Terraform
-        # As we don't save terraform state somewhere, we need to import the existing resources
         run: |
           terraform init \
             -input=false
