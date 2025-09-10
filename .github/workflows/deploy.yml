@@ -122,8 +122,16 @@ jobs:
           terraform init \
             -input=false
 
+          cat > terraform.tfvars <<EOF
+          CLOUDFLARE_API_TOKEN = "${{ secrets.CLOUDFLARE_API_TOKEN }}"
+          CLOUDFLARE_ACCOUNT_ID = "${{ steps.fetch_account_id.outputs.account_id }}"
+          EOF
+
           terraform plan \
-            -input=false > terraform-plan.txt 2>&1
+            -input=false \
+            -out=tfplan
+          
+          terraform show tfplan > terraform-plan.txt
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           TF_VAR_CLOUDFLARE_ACCOUNT_ID: ${{ steps.fetch_account_id.outputs.account_id }}
@@ -133,7 +141,10 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: terraform-plan-output-${{ github.sha }}
-          path: terraform-plan.txt
+          path: |
+            tfplan
+            terraform-plan.txt
+            terraform.tfvars
           retention-days: 30
 
   deploy:
@@ -147,6 +158,12 @@ jobs:
         uses: hashicorp/setup-terraform@v2.0.3
         with:
           terraform_version: 1.6.4
+
+      - name: Download Terraform Plan
+        uses: actions/download-artifact@v4
+        with:
+          name: terraform-plan-output-${{ github.sha }}
+          path: .
 
       - name: Configure Terraform Cloud credentials
         run: |
@@ -170,7 +187,8 @@ jobs:
 
           terraform apply \
             -auto-approve \
-            -input=false
+            -input=false \
+            tfplan
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           TF_VAR_CLOUDFLARE_ACCOUNT_ID: ${{ needs.build.outputs.account_id }}
