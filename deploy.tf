@@ -46,7 +46,7 @@ resource "cloudflare_workers_script" "uptimeflare" {
   }
 }
 
-resource "cloudflare_worker_cron_trigger" "uptimeflare_worker_cron" {
+resource "cloudflare_workers_cron_trigger" "uptimeflare_worker_cron" {
   account_id  = var.CLOUDFLARE_ACCOUNT_ID
   script_name = cloudflare_workers_script.uptimeflare.name
   schedules = [
@@ -55,18 +55,20 @@ resource "cloudflare_worker_cron_trigger" "uptimeflare_worker_cron" {
 }
 
 
-resource "cloudflare_pages_project" "uptimeflare" {
-  account_id        = var.CLOUDFLARE_ACCOUNT_ID
-  name              = "uptimeflare"
-  production_branch = "main"
-
-  deployment_configs {
-    production {
-      kv_namespaces = {
-        UPTIMEFLARE_STATE = cloudflare_workers_kv_namespace.uptimeflare_kv.id
-      }
-      compatibility_date  = "2025-04-02"
-      compatibility_flags = ["nodejs_compat"]
-    }
-  }
-}
+# Remove this resource temporarily to avoid the import issue
+# The Pages project will be created manually via wrangler in the workflow
+# resource "cloudflare_pages_project" "uptimeflare" {
+#   account_id        = var.CLOUDFLARE_ACCOUNT_ID
+#   name              = "uptimeflare"
+#   production_branch = "main"
+#
+#   deployment_configs {
+#     production {
+#       kv_namespaces = {
+#         UPTIMEFLARE_STATE = cloudflare_workers_kv_namespace.uptimeflare_kv.id
+#       }
+#       compatibility_date  = "2025-04-02"
+#       compatibility_flags = ["nodejs_compat"]
+#     }
+#   }
+# }
