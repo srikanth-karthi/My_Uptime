@@ -28,14 +28,14 @@ export default function OverallStatus({
   let groupedMonitor = (group && Object.keys(group).length > 0) || false
 
   let statusString = ''
-  let icon = <IconAlertCircle style={{ width: 64, height: 64, color: '#b91c1c' }} />
+  let icon = <IconAlertCircle style={{ width: 80, height: 80, color: '#dc2626', strokeWidth: 1.5 }} />
   if (state.overallUp === 0 && state.overallDown === 0) {
     statusString = 'No data yet'
   } else if (state.overallUp === 0) {
     statusString = 'All systems not operational'
   } else if (state.overallDown === 0) {
     statusString = 'All systems operational'
-    icon = <IconCircleCheck style={{ width: 64, height: 64, color: '#059669' }} />
+    icon = <IconCircleCheck style={{ width: 80, height: 80, color: '#16a34a', strokeWidth: 1.5 }} />
   } else {
     statusString = `Some systems not operational (${state.overallDown} out of ${
       state.overallUp + state.overallDown
@@ -69,26 +69,38 @@ export default function OverallStatus({
       }))
 
   return (
-    <Container size="md" mt="xl">
-      <Center mb="lg">{icon}</Center>
+    <Container size="md" mt="xl" px="md">
+      <Center mb="xl" style={{ padding: '2rem 0' }}>
+        <div style={{ 
+          padding: '1.5rem', 
+          borderRadius: '50%', 
+          backgroundColor: state.overallDown === 0 ? 'rgba(22, 163, 74, 0.1)' : 'rgba(220, 38, 38, 0.1)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          {icon}
+        </div>
+      </Center>
       <Title 
-        mt="sm" 
         style={{ 
           textAlign: 'center',
-          fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-          marginBottom: '1rem'
+          fontSize: 'clamp(1.75rem, 5vw, 3rem)',
+          marginBottom: '1.5rem',
+          fontWeight: 600,
+          letterSpacing: '-0.02em'
         }} 
         order={1}
       >
         {statusString}
       </Title>
       <Title 
-        mt="xs" 
         style={{ 
           textAlign: 'center', 
-          color: '#70778c',
-          fontSize: 'clamp(0.875rem, 2vw, 1rem)',
-          fontWeight: 400
+          color: '#6b7280',
+          fontSize: 'clamp(0.875rem, 2.5vw, 1.125rem)',
+          fontWeight: 400,
+          marginBottom: '2rem'
         }} 
         order={5}
       >
