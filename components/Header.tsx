@@ -21,25 +21,23 @@ export default function Header() {
   return (
     <header className={classes.header}>
       <Container size="md" className={classes.inner}>
-        <div>
-
-            <Image
-              src="/icon.png"
-              alt="System Check Icon"
-              w={32}
-              h={32}
-            />
-            <Text
-              size="xl"
-              span
-              fw={700}
-              variant="gradient"
-              gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
-            >
-              Srikanth System Status
-            </Text>
-
-        </div>
+        <Group gap="md" align="center">
+          <Image
+            src="/icon.png"
+            alt="System Check Icon"
+            w={32}
+            h={32}
+          />
+          <Text
+            size="xl"
+            fw={700}
+            variant="gradient"
+            gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
+            style={{ fontSize: 'clamp(1.125rem, 3vw, 1.5rem)' }}
+          >
+            Srikanth System Status
+          </Text>
+        </Group>
 
         <Group gap={5} visibleFrom="sm">
           {pageConfig.links?.map(linkToElement)}

@@ -70,11 +70,28 @@ export default function OverallStatus({
 
   return (
     <Container size="md" mt="xl">
-      <Center>{icon}</Center>
-      <Title mt="sm" style={{ textAlign: 'center' }} order={1}>
+      <Center mb="lg">{icon}</Center>
+      <Title 
+        mt="sm" 
+        style={{ 
+          textAlign: 'center',
+          fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
+          marginBottom: '1rem'
+        }} 
+        order={1}
+      >
         {statusString}
       </Title>
-      <Title mt="sm" style={{ textAlign: 'center', color: '#70778c' }} order={5}>
+      <Title 
+        mt="xs" 
+        style={{ 
+          textAlign: 'center', 
+          color: '#70778c',
+          fontSize: 'clamp(0.875rem, 2vw, 1rem)',
+          fontWeight: 400
+        }} 
+        order={5}
+      >
         Last updated on:{' '}
         {`${new Date(state.lastUpdate * 1000).toLocaleString()} (${
           currentTime - state.lastUpdate

@@ -65,24 +65,52 @@ export default function Home({
           </div>
         )}
 
-        <Divider mt="lg" />
+        <Divider mt="xl" mb="lg" />
         <Text
-          size="xs"
-          mt="xs"
-          mb="xs"
+          size="sm"
+          mt="md"
+          mb="xl"
           style={{
             textAlign: 'center',
+            color: '#6b7280',
+            lineHeight: 1.6,
+            maxWidth: '600px',
+            margin: '0 auto',
+            padding: '0 1rem'
           }}
         >
-          Srikanth&apos;s monitoring and status page powered by{' '} Uptime {' '} 
+          Srikanth&apos;s monitoring and status page powered by{' '}
+          <Text component="span" fw={500} c="blue">Uptime</Text>{' '}
           and{' '}
-          <a href="https://www.cloudflare.com/" target="_blank">
+          <Text 
+            component="a" 
+            href="https://www.cloudflare.com/" 
+            target="_blank"
+            td="none"
+            c="blue"
+            fw={500}
+            style={{ 
+              textDecoration: 'none',
+              '&:hover': { textDecoration: 'underline' }
+            }}
+          >
             Cloudflare
-          </a>
-          , customized with ❤ by{' '}
-          <a href="https://srikanth.fun/" target="_blank">
+          </Text>
+          , customized with ❤️ by{' '}
+          <Text 
+            component="a" 
+            href="https://srikanth.fun/" 
+            target="_blank"
+            td="none"
+            c="blue"
+            fw={500}
+            style={{ 
+              textDecoration: 'none',
+              '&:hover': { textDecoration: 'underline' }
+            }}
+          >
             Srikanth
-          </a>
+          </Text>
           .
         </Text>
       </main>
