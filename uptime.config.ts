@@ -66,6 +66,15 @@ const workerConfig: WorkerConfig = {
       timeout: 3000,
       statusPageLink: 'https://notes.srikanth.fun/',
     },
+    {
+      id: 'terminal_site',
+      name: 'Shell',
+      method: 'GET',
+      target: 'https://terminal.srikanth.fun/',
+      expectedCodes: [200],
+      timeout: 3000,
+      statusPageLink: 'https://terminal.srikanth.fun/',
+    },
 
   ],
   notification: {
@@ -103,8 +112,9 @@ const maintenances: MaintenanceConfig[] = [
     monitors: ['ai_portfolio'],
     title: 'Planned Maintenance',
     body: 'Performing updates on AI Portfolio',
-    start: '2025-09-10T00:00:00+05:30',
-    end: '2025-09-10T04:00:00+05:30',
+   start: '2025-09-14T21:00:00+05:30',
+end:   '2025-09-15T21:00:00+05:30'
+
     color: 'yellow',
   },
 ]
