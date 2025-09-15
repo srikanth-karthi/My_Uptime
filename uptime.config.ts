@@ -113,7 +113,7 @@ const maintenances: MaintenanceConfig[] = [
     title: 'Planned Maintenance',
     body: 'Performing updates on AI Portfolio',
    start: '2025-09-14T21:00:00+05:30',
-end:   '2025-09-15T21:00:00+05:30'
+end:   '2025-09-15T21:00:00+05:30',
 
     color: 'yellow',
   },
