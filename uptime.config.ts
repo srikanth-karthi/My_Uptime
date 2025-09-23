@@ -75,6 +75,16 @@ const workerConfig: WorkerConfig = {
       timeout: 3000,
       statusPageLink: 'https://terminal.srikanth.fun/',
     },
+     {
+      id: 'art_site',
+      name: 'Art',
+      method: 'GET',
+      target: 'https://art.srikanth.fun/',
+      expectedCodes: [200],
+      timeout: 3000,
+      statusPageLink: 'https://art.srikanth.fun/',
+    },
+    
 
   ],
   notification: {
