@@ -28,11 +28,6 @@ variable "CLOUDFLARE_ACCOUNT_ID" {
   type = string
 }
 
-variable "CLOUDFLARE_ZONE_ID" {
-  # read zone id from $TF_VAR_CLOUDFLARE_ZONE_ID
-  type        = string
-  description = "Zone ID for srikanthkarthi.tech domain"
-}
 
 resource "cloudflare_workers_kv_namespace" "uptimeflare_kv" {
   account_id = var.CLOUDFLARE_ACCOUNT_ID
@@ -75,22 +70,4 @@ resource "cloudflare_pages_project" "uptimeflare" {
       compatibility_flags = ["nodejs_compat"]
     }
   }
-}
-
-# Custom domain for status page
-resource "cloudflare_pages_domain" "status_domain" {
-  account_id   = var.CLOUDFLARE_ACCOUNT_ID
-  project_name = cloudflare_pages_project.uptimeflare.name
-  domain       = "status.srikanthkarthi.tech"
-}
-
-# DNS record for custom domain
-resource "cloudflare_record" "status_cname" {
-  zone_id = var.CLOUDFLARE_ZONE_ID
-  name    = "status"
-  value   = cloudflare_pages_project.uptimeflare.subdomain
-  type    = "CNAME"
-  ttl     = 1
-  proxied = true
-  comment = "Custom domain for Uptimeflare status page"
 }
