@@ -5,7 +5,7 @@ terraform {
       version = "~> 4"
     }
   }
-
+  
   backend "remote" {
     organization = "srikanth-dev"
 
@@ -23,28 +23,15 @@ variable "CLOUDFLARE_API_TOKEN" {
   type      = string
   sensitive = true
 }
-
 variable "CLOUDFLARE_ACCOUNT_ID" {
+  # read account id from $TF_VAR_CLOUDFLARE_ACCOUNT_ID
   type = string
 }
-
-variable "PAGES_PROJECT_NAME" {
-  type    = string
-  default = "uptimeflare"
-}
-
-###############################
-# Workers KV Namespace
-###############################
 
 resource "cloudflare_workers_kv_namespace" "uptimeflare_kv" {
   account_id = var.CLOUDFLARE_ACCOUNT_ID
   title      = "uptimeflare_kv"
 }
-
-###############################
-# Worker Script
-###############################
 
 resource "cloudflare_workers_script" "uptimeflare" {
   account_id         = var.CLOUDFLARE_ACCOUNT_ID
@@ -59,47 +46,28 @@ resource "cloudflare_workers_script" "uptimeflare" {
   }
 }
 
-###############################
-# Worker Cron Trigger
-###############################
-
-resource "cloudflare_workers_cron_trigger" "uptimeflare_worker_cron" {
+resource "cloudflare_worker_cron_trigger" "uptimeflare_worker_cron" {
   account_id  = var.CLOUDFLARE_ACCOUNT_ID
   script_name = cloudflare_workers_script.uptimeflare.name
-
   schedules = [
-    "0 */1 * * *"
+    "0 */1 * * *", # every 1 hour
   ]
 }
 
-###############################
-# CREATE Cloudflare Pages Project
-###############################
 
 resource "cloudflare_pages_project" "uptimeflare" {
-  account_id = var.CLOUDFLARE_ACCOUNT_ID
-  name       = var.PAGES_PROJECT_NAME
-
+  account_id        = var.CLOUDFLARE_ACCOUNT_ID
+  name              = "uptimeflare"
   production_branch = "main"
-
-  build_config {
-    build_command   = "npm run build"
-    destination_dir = "dist"
-  }
 
   deployment_configs {
     production {
-      compatibility_date = "2025-04-02"
+      kv_namespaces = {
+        UPTIMEFLARE_STATE = cloudflare_workers_kv_namespace.uptimeflare_kv.id
+      }
+      compatibility_date  = "2025-04-02"
+      compatibility_flags = ["nodejs_compat"]
     }
   }
 }
 
-###############################
-# Add Custom Domain for Pages
-###############################
-
-resource "cloudflare_pages_domain" "status_domain" {
-  account_id   = var.CLOUDFLARE_ACCOUNT_ID
-  project_name = cloudflare_pages_project.uptimeflare.name
-  domain       = "status.srikanthkarthi.tech"
-}
