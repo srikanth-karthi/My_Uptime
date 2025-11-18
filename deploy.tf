@@ -28,6 +28,17 @@ variable "CLOUDFLARE_ACCOUNT_ID" {
   type = string
 }
 
+variable "CLOUDFLARE_ZONE_ID" {
+  # read zone id from $TF_VAR_CLOUDFLARE_ZONE_ID
+  type        = string
+  description = "Zone ID for srikanthkarthi.tech domain"
+}
+
+variable "CLOUDFLARE_PAGES_PROJECT_NAME" {
+  type        = string
+  default     = "uptimeflare-3kw"
+  description = "Existing Cloudflare Pages project name"
+}
 
 resource "cloudflare_workers_kv_namespace" "uptimeflare_kv" {
   account_id = var.CLOUDFLARE_ACCOUNT_ID
@@ -47,7 +58,7 @@ resource "cloudflare_workers_script" "uptimeflare" {
   }
 }
 
-resource "cloudflare_worker_cron_trigger" "uptimeflare_worker_cron" {
+resource "cloudflare_workers_cron_trigger" "uptimeflare_worker_cron" {
   account_id  = var.CLOUDFLARE_ACCOUNT_ID
   script_name = cloudflare_workers_script.uptimeflare.name
   schedules = [
@@ -56,18 +67,26 @@ resource "cloudflare_worker_cron_trigger" "uptimeflare_worker_cron" {
 }
 
 
-resource "cloudflare_pages_project" "uptimeflare" {
-  account_id        = var.CLOUDFLARE_ACCOUNT_ID
-  name              = "uptimeflare"
-  production_branch = "main"
+# Reference existing Cloudflare Pages project
+data "cloudflare_pages_project" "uptimeflare" {
+  account_id = var.CLOUDFLARE_ACCOUNT_ID
+  name       = var.CLOUDFLARE_PAGES_PROJECT_NAME
+}
 
-  deployment_configs {
-    production {
-      kv_namespaces = {
-        UPTIMEFLARE_STATE = cloudflare_workers_kv_namespace.uptimeflare_kv.id
-      }
-      compatibility_date  = "2025-04-02"
-      compatibility_flags = ["nodejs_compat"]
-    }
-  }
+# Custom domain for status page
+resource "cloudflare_pages_domain" "status_domain" {
+  account_id   = var.CLOUDFLARE_ACCOUNT_ID
+  project_name = data.cloudflare_pages_project.uptimeflare.name
+  domain       = "status.srikanthkarthi.tech"
+}
+
+# DNS record for custom domain
+resource "cloudflare_record" "status_cname" {
+  zone_id = var.CLOUDFLARE_ZONE_ID
+  name    = "status"
+  value   = "${data.cloudflare_pages_project.uptimeflare.subdomain}.pages.dev"
+  type    = "CNAME"
+  ttl     = 1
+  proxied = true
+  comment = "Custom domain for Uptimeflare status page"
 }
