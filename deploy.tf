@@ -46,7 +46,7 @@ resource "cloudflare_workers_script" "uptimeflare" {
   }
 }
 
-resource "cloudflare_worker_cron_trigger" "uptimeflare_worker_cron" {
+resource "cloudflare_workers_cron_trigger" "uptimeflare_worker_cron" {
   account_id  = var.CLOUDFLARE_ACCOUNT_ID
   script_name = cloudflare_workers_script.uptimeflare.name
   schedules = [
