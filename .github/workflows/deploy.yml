@@ -136,10 +136,13 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID = "${{ steps.fetch_account_id.outputs.account_id }}"
           EOF
 
+          # Destroy entire Terraform state (one-time cleanup)
+          terraform destroy -auto-approve 2>/dev/null || true
+
           terraform plan \
             -input=false \
             -out=tfplan
-          
+
           terraform show tfplan > terraform-plan.txt
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

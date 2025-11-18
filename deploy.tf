@@ -55,4 +55,19 @@ resource "cloudflare_workers_cron_trigger" "uptimeflare_worker_cron" {
 }
 
 
+resource "cloudflare_pages_project" "uptimeflare" {
+  account_id        = var.CLOUDFLARE_ACCOUNT_ID
+  name              = "uptimeflare"
+  production_branch = "main"
+
+  deployment_configs {
+    production {
+      kv_namespaces = {
+        UPTIMEFLARE_STATE = cloudflare_workers_kv_namespace.uptimeflare_kv.id
+      }
+      compatibility_date  = "2025-04-02"
+      compatibility_flags = ["nodejs_compat"]
+    }
+  }
+}
 
