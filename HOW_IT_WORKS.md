@@ -51,7 +51,7 @@ monitors: [
   {
     id: 'portfolio_site',
     name: 'Portfolio Site',
-    target: 'https://srikanth.fun',
+    target: 'https://srikanthkarthi.tech',
     method: 'GET'
   }
   // ... more monitors

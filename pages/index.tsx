@@ -99,7 +99,7 @@ export default function Home({
           , customized with ❤️ by{' '}
           <Text 
             component="a" 
-            href="https://srikanth.fun/" 
+            href="https://srikanthkarthi.tech/" 
             target="_blank"
             td="none"
             c="blue"
