@@ -136,8 +136,11 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID = "${{ steps.fetch_account_id.outputs.account_id }}"
           EOF
 
-          # Destroy entire Terraform state (one-time cleanup)
-          terraform destroy -auto-approve 2>/dev/null || true
+          # Remove Pages project from state if it exists (handles case where it doesn't exist in Cloudflare)
+          terraform state rm cloudflare_pages_project.uptimeflare 2>/dev/null || true
+
+          # Destroy entire Terraform state
+          terraform destroy -auto-approve
 
           terraform plan \
             -input=false \
